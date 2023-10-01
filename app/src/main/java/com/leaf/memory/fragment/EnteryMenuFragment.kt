@@ -12,6 +12,12 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
     private val binding: FragmentEnteryMenuBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.newGame.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.container, GameFragment())
+                .commit()
+        }
     }
 
 }
