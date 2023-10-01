@@ -4,4 +4,7 @@
     <string name="about">About</string>
     <string name="continue_text">Continue</string>
     <string name="new_game">New Game</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="Hard">Hard</string>
 </resources>
