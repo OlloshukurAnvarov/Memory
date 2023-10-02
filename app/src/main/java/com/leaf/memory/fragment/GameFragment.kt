@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
@@ -22,6 +23,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var level = 0
     private val images: ArrayList<Drawable> = ArrayList()
     private lateinit var card_layout: LinearLayout
+    private lateinit var counter: TextView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
         loadViews()
@@ -29,10 +31,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadDataToViews() {
-
+        counter.setText("0")
     }
 
     private fun loadViews() {
+        counter = binding.step
 
         for (i in 0 until card_layout.childCount){
             val layout = card_layout.getChildAt(i) as LinearLayout
@@ -64,6 +67,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                                         override fun onFinish() {
                                             Toast.makeText(requireContext(), "False", Toast.LENGTH_SHORT).show()
+                                            var a = Integer.parseInt(counter.text.toString())
+                                            a += 1
+                                            counter.setText(a.toString())
 
                                             flip_in(cardViewCheck, imageCheck)
                                             flip_in(cardView, image)
