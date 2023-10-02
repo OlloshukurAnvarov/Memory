@@ -43,7 +43,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         duration = 800
                         doOnEnd {
                             flipAnimator4.start()
-                            cardView.foreground = resources.getDrawable(R.drawable.clickable_effect, null)
+                            image.setImageResource(R.drawable.landscape_icon)
                         }
                     }
                     val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
@@ -65,7 +65,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         duration = 800
                         doOnEnd {
                             flipAnimator2.start()
-                            cardView.foreground = resources.getDrawable(R.drawable.ic_launcher_foreground,null)
+                            image.setImageResource(R.drawable.lion)
                         }
                     }
                     flipAnimator.start()
