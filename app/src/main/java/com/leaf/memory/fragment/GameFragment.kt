@@ -28,27 +28,25 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadViews() {
-        var flipAnimator = ObjectAnimator()
-        var flipAnimator2 = ObjectAnimator()
-        var flipAnimator3 = ObjectAnimator()
-        var flipAnimator4 = ObjectAnimator()
         for (i in 0 until card_layout.childCount){
             val layout = card_layout.getChildAt(i) as LinearLayout
             for(j in 0 until layout.childCount){
                 val cardView = layout.getChildAt(j) as CardView
                 val image = cardView.getChildAt(0) as ImageView
                 cardView.setOnClickListener {
-                    flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+                    cardView.isClickable = false
+                    val flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
                         duration = 800
+                        doOnEnd { cardView.isClickable = true }
                     }
-                    flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
+                    val flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
                         duration = 800
                         doOnEnd {
                             flipAnimator4.start()
-                            cardView.foreground = resources.getDrawable(R.drawable.clickable_effect)
+                            cardView.foreground = resources.getDrawable(R.drawable.clickable_effect, null)
                         }
                     }
-                    flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+                    val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
                         duration = 800
                         doOnEnd {
                             object : CountDownTimer(3000, 1000){
@@ -63,7 +61,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                             }.start()
                         }
                     }
-                    flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
+                    val flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
                         duration = 800
                         doOnEnd {
                             flipAnimator2.start()
