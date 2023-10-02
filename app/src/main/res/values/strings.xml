@@ -7,4 +7,5 @@
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="Hard">Hard</string>
+    <string name="next">NEXT</string>
 </resources>
