@@ -109,12 +109,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
     }
-
-    companion object{
-        const val EASY_MODE = 1
-        const val MEDIUM_MODE = 2
-        const val HARD_MODE = 3
-    }
     fun flip_in(cardView: CardView, imageCheck: ImageView){
         val flipAnimatorThis =
             ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f)

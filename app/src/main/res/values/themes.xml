@@ -3,6 +3,8 @@
     <style name="Base.Theme.Memory" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
