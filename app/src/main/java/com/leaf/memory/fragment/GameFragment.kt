@@ -1,7 +1,9 @@
 package com.leaf.memory.fragment
 
 import android.animation.ObjectAnimator
+import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -15,7 +17,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
     private var mode = 0
     private lateinit var card_layout: LinearLayout
-    init {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
         loadViews()
         loadDataToViews()
@@ -30,20 +32,23 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         var flipAnimator2 = ObjectAnimator()
         var flipAnimator3 = ObjectAnimator()
         var flipAnimator4 = ObjectAnimator()
-        for (i in 0..card_layout.childCount){
+        for (i in 0 until card_layout.childCount){
             val layout = card_layout.getChildAt(i) as LinearLayout
-            for(j in 0..layout.childCount){
+            for(j in 0 until layout.childCount){
                 val cardView = layout.getChildAt(j) as CardView
                 val image = cardView.getChildAt(0) as ImageView
                 cardView.setOnClickListener {
-                    flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 180f).apply {
+                    flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+                        duration = 800
+                    }
+                    flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
                         duration = 800
                         doOnEnd {
-                            flipAnimator2.start()
-                            cardView.foreground = resources.getDrawable(R.drawable.ic_launcher_foreground,null)
+                            flipAnimator4.start()
+                            cardView.foreground = resources.getDrawable(R.drawable.clickable_effect)
                         }
                     }
-                    flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 180f, 360f).apply {
+                    flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
                         duration = 800
                         doOnEnd {
                             object : CountDownTimer(3000, 1000){
@@ -58,15 +63,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                             }.start()
                         }
                     }
-                    flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 180f).apply {
+                    flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
                         duration = 800
                         doOnEnd {
-                            flipAnimator4.start()
-                            cardView.foreground = resources.getDrawable(R.drawable.clickable_effect)
+                            flipAnimator2.start()
+                            cardView.foreground = resources.getDrawable(R.drawable.ic_launcher_foreground,null)
                         }
-                    }
-                    flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 180f, 360f).apply {
-                        duration = 800
                     }
                     flipAnimator.start()
 
