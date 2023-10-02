@@ -39,7 +39,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 val cardView = layout.getChildAt(j) as CardView
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
-                image.tag = images[i*7+j]
+                image.tag = images[i*8+j]
 
                 cardView.setOnClickListener {
                     cardView.isClickable = false
@@ -138,7 +138,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             duration = 800
             doOnEnd {
                 flipAnimator2.start()
-                image.setImageDrawable(images[i*7+j])
+                image.setImageDrawable(images[i*8+j])
             }
         }
         flipAnimator.start()
