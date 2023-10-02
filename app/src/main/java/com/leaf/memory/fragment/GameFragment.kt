@@ -1,6 +1,8 @@
 package com.leaf.memory.fragment
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -12,10 +14,12 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.leaf.memory.R
 import com.leaf.memory.databinding.FragmentGameBinding
+import java.util.Collections
 
 class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
-    private var mode = 0
+    private var level = 0
+    private val images: ArrayList<Drawable> = ArrayList()
     private lateinit var card_layout: LinearLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
@@ -65,7 +69,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         duration = 800
                         doOnEnd {
                             flipAnimator2.start()
-                            image.setImageResource(R.drawable.lion)
+                            image.setImageDrawable(images[(i+1)*4+j])
                         }
                     }
                     flipAnimator.start()
@@ -75,9 +79,29 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadData() {
         card_layout = binding.cardsLinerLayout
-        mode = arguments?.getInt("mode")!!
+        images.add(resources.getDrawable(R.drawable.lion, null))
+        images.add(resources.getDrawable(R.drawable.bird, null))
+        images.add(resources.getDrawable(R.drawable.crocodile, null))
+        images.add(resources.getDrawable(R.drawable.deer, null))
+        images.add(resources.getDrawable(R.drawable.elephant, null))
+        images.add(resources.getDrawable(R.drawable.fox, null))
+        images.add(resources.getDrawable(R.drawable.frog, null))
+        images.add(resources.getDrawable(R.drawable.giraffe, null))
+        images.add(resources.getDrawable(R.drawable.hen, null))
+        images.add(resources.getDrawable(R.drawable.horse, null))
+        images.add(resources.getDrawable(R.drawable.mouse, null))
+        images.add(resources.getDrawable(R.drawable.owl, null))
+        images.add(resources.getDrawable(R.drawable.tiger, null))
+        images.add(resources.getDrawable(R.drawable.raccoon, null))
+        images.add(resources.getDrawable(R.drawable.shark, null))
+        images.add(resources.getDrawable(R.drawable.snake, null))
+        images.addAll(images)
+        Collections.shuffle(images)
+
+
     }
 
     companion object{
