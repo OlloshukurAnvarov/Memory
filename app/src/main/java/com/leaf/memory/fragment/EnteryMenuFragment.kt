@@ -15,7 +15,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
         binding.newGame.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.container, GameFragment())
+                .replace(R.id.container, degree_fragment())
                 .commit()
         }
     }

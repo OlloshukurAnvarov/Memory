@@ -156,7 +156,7 @@
 
             <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
 
-                <ImageView style="@style/game_cards_icons" />
+                 <ImageView style="@style/game_cards_icons" />
 
             </androidx.cardview.widget.CardView>
 
