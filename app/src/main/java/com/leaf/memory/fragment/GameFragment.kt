@@ -35,11 +35,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 val image = cardView.getChildAt(0) as ImageView
                 cardView.setOnClickListener {
                     cardView.isClickable = false
-                    val flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+                    val flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f).apply {
                         duration = 800
                         doOnEnd { cardView.isClickable = true }
                     }
-                    val flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
+                    val flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 180f, 270f).apply {
                         duration = 800
                         doOnEnd {
                             flipAnimator4.start()
