@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
@@ -36,44 +37,49 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             val layout = card_layout.getChildAt(i) as LinearLayout
             for(j in 0 until layout.childCount){
                 val cardView = layout.getChildAt(j) as CardView
+                cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
+                image.tag = images[i*7+j]
+
                 cardView.setOnClickListener {
                     cardView.isClickable = false
-                    val flipAnimator4 = ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f).apply {
-                        duration = 800
-                        doOnEnd { cardView.isClickable = true }
-                    }
-                    val flipAnimator3 = ObjectAnimator.ofFloat(cardView, "rotationY", 180f, 270f).apply {
-                        duration = 800
-                        doOnEnd {
-                            flipAnimator4.start()
-                            image.setImageResource(R.drawable.landscape_icon)
-                        }
-                    }
-                    val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
-                        duration = 800
-                        doOnEnd {
-                            object : CountDownTimer(3000, 1000){
-                                override fun onTick(p0: Long) {
+                    cardView.tag = true
+                    flip_out(cardView, image, i, j)
+
+                    for (iS in 0 until card_layout.childCount) {
+                        val layout = card_layout.getChildAt(iS) as LinearLayout
+                        for (jS in 0 until layout.childCount) {
+                            val cardViewCheck = layout.getChildAt(jS) as CardView
+                            val imageCheck = cardViewCheck.getChildAt(0) as ImageView
+                            if (i == iS && j == jS) {continue}
+                            else  {
+                                 if (cardViewCheck.tag == true && image.tag != imageCheck.tag){
+                                     cardViewCheck.tag = false
+                                     cardView.tag = false
+                                    object : CountDownTimer(2000, 1000){
+                                        override fun onTick(p0: Long) {
+
+                                        }
+
+                                        override fun onFinish() {
+                                            Toast.makeText(requireContext(), "False", Toast.LENGTH_SHORT).show()
+
+                                            flip_in(cardViewCheck, imageCheck)
+                                            flip_in(cardView, image)
+                                        }
+
+                                    }.start()
 
                                 }
+                                else if (cardViewCheck.tag == true && image.tag == imageCheck.tag){
+                                     cardViewCheck.tag = false
+                                     cardView.tag = false
+                                     Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT).show()
 
-                                override fun onFinish() {
-                                    flipAnimator3.start()
-                                }
-
-                            }.start()
+                                 }
+                            }
                         }
                     }
-                    val flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
-                        duration = 800
-                        doOnEnd {
-                            flipAnimator2.start()
-                            image.setImageDrawable(images[(i+1)*4+j])
-                        }
-                    }
-                    flipAnimator.start()
-
                 }
             }
         }
@@ -108,5 +114,39 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         const val EASY_MODE = 1
         const val MEDIUM_MODE = 2
         const val HARD_MODE = 3
+    }
+    fun flip_in(cardView: CardView, imageCheck: ImageView){
+        val flipAnimatorThis =
+            ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f)
+                .apply {
+                    duration = 800
+                    doOnEnd { cardView.isClickable = true }
+                }
+        val flipAnimatorBegin = ObjectAnimator.ofFloat(
+            cardView,
+            "rotationY",
+            180f,
+            270f
+        ).apply {
+            duration = 800
+            doOnEnd {
+                flipAnimatorThis.start()
+                imageCheck.setImageResource(R.drawable.landscape_icon)
+            }
+        }
+        flipAnimatorBegin.start()
+    }
+    fun flip_out(cardView: CardView, image: ImageView, i:Int, j:Int){
+        val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+            duration = 800
+        }
+        val flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
+            duration = 800
+            doOnEnd {
+                flipAnimator2.start()
+                image.setImageDrawable(images[i*7+j])
+            }
+        }
+        flipAnimator.start()
     }
 }
