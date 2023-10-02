@@ -33,18 +33,19 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadViews() {
+
         for (i in 0 until card_layout.childCount){
             val layout = card_layout.getChildAt(i) as LinearLayout
             for(j in 0 until layout.childCount){
                 val cardView = layout.getChildAt(j) as CardView
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
-                image.tag = images[i*8+j]
+                image.tag = images[i*layout.childCount+j]
 
                 cardView.setOnClickListener {
                     cardView.isClickable = false
                     cardView.tag = true
-                    flip_out(cardView, image, i, j)
+                    flip_out(cardView, image, i, j, layout.childCount)
 
                     for (iS in 0 until card_layout.childCount) {
                         val layout = card_layout.getChildAt(iS) as LinearLayout
@@ -130,7 +131,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         flipAnimatorBegin.start()
     }
-    fun flip_out(cardView: CardView, image: ImageView, i:Int, j:Int){
+    fun flip_out(cardView: CardView, image: ImageView, i:Int, j:Int, max:Int){
         val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
             duration = 800
         }
@@ -138,7 +139,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             duration = 800
             doOnEnd {
                 flipAnimator2.start()
-                image.setImageDrawable(images[i*8+j])
+                image.setImageDrawable(images[i*max+j])
             }
         }
         flipAnimator.start()
