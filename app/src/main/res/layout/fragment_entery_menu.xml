@@ -104,5 +104,4 @@
         app:layout_constraintTop_toTopOf="@id/shapeableImageView"
         app:tint="@color/white" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

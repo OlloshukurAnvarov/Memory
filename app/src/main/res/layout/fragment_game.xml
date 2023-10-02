@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/mountain_landscape_blur" />
+
+    <LinearLayout
+        android:id="@+id/cards_linerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/game_cards_card_backs">
+
+                <ImageView style="@style/game_cards_icons" />
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        style="@style/game_cards_card_backs"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintHorizontal_bias="1.1"
+        app:layout_constraintEnd_toEndOf="@id/cards_linerLayout"
+        app:layout_constraintStart_toStartOf="@+id/cards_linerLayout"
+        app:layout_constraintTop_toTopOf="@id/cards_linerLayout">
+
+        <TextView
+            android:id="@+id/step"
+            style="@style/menu_button_text_style"
+            android:padding="1dp"
+            android:text="41"
+            android:textColor="@color/dark_ink"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/back"
+        style="@style/menu_button_card_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/menu_button_text_style"
+            android:layout_marginHorizontal="8dp"
+            android:textSize="18sp"
+            android:text="Back" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
