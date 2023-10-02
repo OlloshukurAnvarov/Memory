@@ -27,17 +27,6 @@
     <style name="game_cards_card_backs">
         <item name="android:layout_width">72dp</item>
         <item name="android:layout_height">80dp</item>
-        <item name="android:foreground">@drawable/clickable_effect</item>
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardBackgroundColor">@color/dark_ink</item>
-        <item name="cardUseCompatPadding">true</item>
+        <item name="android:layout_margin">4dp</item>
     </style>
-
-    <style name="game_cards_icons">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="srcCompat">@drawable/landscape_icon</item>
-    </style>
-
 </resources>

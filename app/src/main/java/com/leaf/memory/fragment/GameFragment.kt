@@ -6,22 +6,27 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.GridLayout
+import android.widget.GridView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.leaf.memory.R
+import com.leaf.memory.adapter.CardAdapter
 import com.leaf.memory.databinding.FragmentGameBinding
+import com.leaf.memory.model.Card
 import java.util.Collections
 
 class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
+    private val images = ArrayList<Card>()
+    private val adapter by lazy { CardAdapter(requireContext(), images) }
     private var level = 0
-    private val images: ArrayList<Drawable> = ArrayList()
-    private lateinit var card_layout: LinearLayout
+    private lateinit var cardLayout: GridView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
         loadViews()
@@ -29,14 +34,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadDataToViews() {
-
+        binding.cardsLinerLayout.adapter = adapter
     }
 
     private fun loadViews() {
-        for (i in 0 until card_layout.childCount){
-            val layout = card_layout.getChildAt(i) as LinearLayout
+        for (i in 0 until cardLayout.childCount){
+            val layout = cardLayout.getChildAt(i) as LinearLayout
             for(j in 0 until layout.childCount){
-                val cardView = layout.getChildAt(j) as CardView
+                val cardView = layout.getChildAt(j) as FrameLayout
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
                 image.tag = images[i*7+j]
@@ -46,10 +51,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     cardView.tag = true
                     flip_out(cardView, image, i, j)
 
-                    for (iS in 0 until card_layout.childCount) {
-                        val layout = card_layout.getChildAt(iS) as LinearLayout
+                    for (iS in 0 until cardLayout.childCount) {
+                        val layout = cardLayout.getChildAt(iS) as LinearLayout
                         for (jS in 0 until layout.childCount) {
-                            val cardViewCheck = layout.getChildAt(jS) as CardView
+                            val cardViewCheck = layout.getChildAt(jS) as FrameLayout
                             val imageCheck = cardViewCheck.getChildAt(0) as ImageView
                             if (i == iS && j == jS) {continue}
                             else  {
@@ -87,7 +92,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadData() {
-        card_layout = binding.cardsLinerLayout
+        cardLayout = binding.cardsLinerLayout
         images.add(resources.getDrawable(R.drawable.lion, null))
         images.add(resources.getDrawable(R.drawable.bird, null))
         images.add(resources.getDrawable(R.drawable.crocodile, null))
@@ -109,7 +114,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
     }
-    fun flip_in(cardView: CardView, imageCheck: ImageView){
+    fun flip_in(cardView: FrameLayout, imageCheck: ImageView){
         val flipAnimatorThis =
             ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f)
                 .apply {
@@ -130,7 +135,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         flipAnimatorBegin.start()
     }
-    fun flip_out(cardView: CardView, image: ImageView, i:Int, j:Int){
+    fun flip_out(cardView: FrameLayout, image: ImageView, i:Int, j:Int){
         val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
             duration = 800
         }
