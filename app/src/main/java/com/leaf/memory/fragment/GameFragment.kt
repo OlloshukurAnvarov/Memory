@@ -155,8 +155,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             }
 
             4 -> {
-                cardLayout.rowCount = 3
-                cardLayout.columnCount = 4
+                cardLayout.rowCount = 4
+                cardLayout.columnCount = 3
             }
 
             5 -> {
@@ -224,7 +224,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     fun checkWin(): Boolean{
         for (i in 0 until cardLayout.rowCount) {
             for (j in 0 until cardLayout.columnCount) {
-                val cardView = cardLayout.getChildAt(i * cardLayout.columnCount + j) as FrameLayout
                 if (adapter.getItem(i*cardLayout.columnCount+j)?.matched != true){
                     return false
                 }
