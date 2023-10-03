@@ -12,16 +12,36 @@ import com.leaf.memory.preferences.Settings
 
 class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
     private val binding: FragmentEnteryMenuBinding by viewBinding()
+    private val settings by lazy { Settings.getData(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val level = Settings.getData(requireContext()).level()
+
+        if (settings.level() > 4)
+            binding.continueButton.visibility = View.VISIBLE
+        else
+            binding.continueButton.visibility = View.GONE
+
         binding.newGame.setOnClickListener {
+            settings.saveLevel(4)
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.container, GameFragment::class.java, bundleOf("level" to level+1))
+                .replace(R.id.container, GameFragment())
                 .addToBackStack("EnteryMenuFragment")
                 .commit()
         }
+
+        binding.continueButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.container, GameFragment())
+                .addToBackStack("EnteryMenuFragment")
+                .commit()
+        }
+
+        binding.exit.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
     }
 
 }
