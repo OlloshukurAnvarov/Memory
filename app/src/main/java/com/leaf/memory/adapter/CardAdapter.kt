@@ -14,7 +14,7 @@ class CardAdapter(context: Context, val list: List<Card>) : ArrayAdapter<Card>(c
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.card_item, parent, false)
 
         val card = getItem(position) ?: Card()
-        view.findViewById<ImageView>(R.id.card_icon).setImageResource(card.imageResId)
+//        view.findViewById<ImageView>(R.id.card_icon).setImageResource(card.imageResId)
         return view
     }
     fun setMatched(p0: Int, value: Boolean){
