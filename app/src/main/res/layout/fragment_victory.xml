@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="LEVEL 3"
+            android:text="LEVEL 10"
             android:textStyle="bold"
             android:textSize="25sp"
             android:gravity="center"/>

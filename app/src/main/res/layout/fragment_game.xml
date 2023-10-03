@@ -12,7 +12,7 @@
         android:src="@drawable/mountain_landscape_blur" />
 
     <GridLayout
-        android:id="@+id/cards_linerLayout"
+        android:id="@+id/cards_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
