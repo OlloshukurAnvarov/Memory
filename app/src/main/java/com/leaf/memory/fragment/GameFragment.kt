@@ -35,8 +35,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     private fun loadDataToViews() {
         binding.back.setOnClickListener {
-            //////
-            ///// Firdavs
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -47,7 +45,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             for (j in 0 until cardLayout.columnCount) {
                 val cardView = cardLayout.getChildAt(i * cardLayout.columnCount + j) as FrameLayout
                 cardView.tag = false
-                adapter
                 val image = cardView.getChildAt(0) as ImageView
                 image.tag = images[i * cardLayout.columnCount + j]
 
@@ -103,10 +100,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                                     .add(R.id.container, FragmentVictory::class.java, bundleOf("level" to level))
                                                     .commit()
                                             }
-
                                         }.start()
                                     }
-
                                 }
                             }
                         }
