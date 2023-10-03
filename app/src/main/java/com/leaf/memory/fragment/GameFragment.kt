@@ -2,15 +2,12 @@ package com.leaf.memory.fragment
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
-import android.widget.GridView
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
@@ -25,7 +22,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
     private val images = ArrayList<Card>()
     private val adapter by lazy { CardAdapter(requireContext(), images) }
-    private var level = 0
+    private var level = 1
     private lateinit var cardLayout: GridLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
@@ -34,16 +31,21 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadDataToViews() {
+        binding.back.setOnClickListener {
+            //////
+            ///// Firdavs
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
 
     }
 
     private fun loadViews() {
-        for (i in 0 until cardLayout.rowCount){
-            for(j in 0 until cardLayout.columnCount){
-                val cardView = cardLayout.getChildAt(i*cardLayout.columnCount+j) as FrameLayout
+        for (i in 0 until cardLayout.rowCount) {
+            for (j in 0 until cardLayout.columnCount) {
+                val cardView = cardLayout.getChildAt(i * cardLayout.columnCount + j) as FrameLayout
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
-                image.tag = images[i*8+j]
+                image.tag = images[i * cardLayout.columnCount + j]
 
                 cardView.setOnClickListener {
                     cardView.isClickable = false
@@ -52,20 +54,26 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                     for (iS in 0 until cardLayout.rowCount) {
                         for (jS in 0 until cardLayout.columnCount) {
-                            val cardViewCheck = cardLayout.getChildAt(iS*cardLayout.columnCount+jS) as FrameLayout
+                            val cardViewCheck =
+                                cardLayout.getChildAt(iS * cardLayout.columnCount + jS) as FrameLayout
                             val imageCheck = cardViewCheck.getChildAt(0) as ImageView
-                            if (i == iS && j == jS) {continue}
-                            else  {
-                                 if (cardViewCheck.tag == true && image.tag != imageCheck.tag){
-                                     cardViewCheck.tag = false
-                                     cardView.tag = false
-                                    object : CountDownTimer(2000, 1000){
+                            if (i == iS && j == jS) {
+                                continue
+                            } else {
+                                if (cardViewCheck.tag == true && image.tag != imageCheck.tag) {
+                                    cardViewCheck.tag = false
+                                    cardView.tag = false
+                                    object : CountDownTimer(2000, 1000) {
                                         override fun onTick(p0: Long) {
 
                                         }
 
                                         override fun onFinish() {
-                                            Toast.makeText(requireContext(), "False", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "False",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
 
                                             flip_in(cardViewCheck, imageCheck)
                                             flip_in(cardView, image)
@@ -73,13 +81,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                                     }.start()
 
-                                }
-                                else if (cardViewCheck.tag == true && image.tag == imageCheck.tag){
-                                     cardViewCheck.tag = false
-                                     cardView.tag = false
-                                     Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT).show()
+                                } else if (cardViewCheck.tag == true && image.tag == imageCheck.tag) {
+                                    cardViewCheck.tag = false
+                                    cardView.tag = false
+                                    Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT)
+                                        .show()
 
-                                 }
+                                }
                             }
                         }
                     }
@@ -120,7 +128,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
 
     }
-    fun flip_in(cardView: FrameLayout, imageCheck: ImageView){
+
+    fun flip_in(cardView: FrameLayout, imageCheck: ImageView) {
         val flipAnimatorThis =
             ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f)
                 .apply {
@@ -141,15 +150,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         flipAnimatorBegin.start()
     }
-    fun flip_out(cardView: FrameLayout, image: ImageView, i:Int, j:Int){
-        val flipAnimator2 =  ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
+
+    fun flip_out(cardView: FrameLayout, image: ImageView, i: Int, j: Int) {
+        val flipAnimator2 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
             duration = 800
         }
         val flipAnimator = ObjectAnimator.ofFloat(cardView, "rotationY", 0f, 90f).apply {
             duration = 800
             doOnEnd {
                 flipAnimator2.start()
-                image.setImageResource(images[i*8+j].imageResId)
+                image.setImageResource(images[i * 8 + j].imageResId)
             }
         }
         flipAnimator.start()

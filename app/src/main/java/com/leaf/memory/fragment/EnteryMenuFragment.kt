@@ -16,6 +16,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.container, GameFragment())
+                .addToBackStack("EnteryMenuFragment")
                 .commit()
         }
     }
