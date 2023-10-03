@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
+                android:id="@+id/retry"
                 android:background="@drawable/aylana"
                 android:src="@drawable/baseline_replay_24" />
         </LinearLayout>
@@ -37,6 +38,7 @@
             android:layout_height="40dp"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="30dp"
+            android:id="@+id/next"
             android:layout_marginBottom="30dp"
             android:background="@drawable/rectangle2"
             android:padding="2dp">
@@ -63,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="LEVEL 3"
+            android:id="@+id/level"
             android:textStyle="bold"
             android:textSize="25sp"
             android:gravity="center"/>

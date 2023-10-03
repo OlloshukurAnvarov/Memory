@@ -3,19 +3,22 @@ package com.leaf.memory.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.leaf.memory.R
 import com.leaf.memory.databinding.FragmentEnteryMenuBinding
+import com.leaf.memory.preferences.Settings
 
 class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
     private val binding: FragmentEnteryMenuBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val level = Settings.getData(requireContext()).level()
         binding.newGame.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.container, GameFragment())
+                .replace(R.id.container, GameFragment::class.java, bundleOf("level" to level+1))
                 .addToBackStack("EnteryMenuFragment")
                 .commit()
         }
