@@ -32,6 +32,7 @@ class MakeCards {
             val randCardIndex = Random.nextInt(cards.size)
             pCards.add(cards[randCardIndex])
             pCards.add(cards[randCardIndex])
+            cards.removeAt(randCardIndex)
         }
         return pCards.shuffled()
     }
