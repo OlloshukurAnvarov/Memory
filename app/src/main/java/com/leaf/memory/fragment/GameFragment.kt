@@ -44,7 +44,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 val cardView = layout.getChildAt(j) as FrameLayout
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
-                image.tag = images[i*7+j]
+                image.tag = images[i*8+j]
 
                 cardView.setOnClickListener {
                     cardView.isClickable = false
@@ -93,22 +93,22 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadData() {
         cardLayout = binding.cardsLinerLayout
-        images.add(resources.getDrawable(R.drawable.lion, null))
-        images.add(resources.getDrawable(R.drawable.bird, null))
-        images.add(resources.getDrawable(R.drawable.crocodile, null))
-        images.add(resources.getDrawable(R.drawable.deer, null))
-        images.add(resources.getDrawable(R.drawable.elephant, null))
-        images.add(resources.getDrawable(R.drawable.fox, null))
-        images.add(resources.getDrawable(R.drawable.frog, null))
-        images.add(resources.getDrawable(R.drawable.giraffe, null))
-        images.add(resources.getDrawable(R.drawable.hen, null))
-        images.add(resources.getDrawable(R.drawable.horse, null))
-        images.add(resources.getDrawable(R.drawable.mouse, null))
-        images.add(resources.getDrawable(R.drawable.owl, null))
-        images.add(resources.getDrawable(R.drawable.tiger, null))
-        images.add(resources.getDrawable(R.drawable.raccoon, null))
-        images.add(resources.getDrawable(R.drawable.shark, null))
-        images.add(resources.getDrawable(R.drawable.snake, null))
+        images.add(Card(R.drawable.lion))
+        images.add(Card(R.drawable.bird))
+        images.add(Card(R.drawable.crocodile))
+        images.add(Card(R.drawable.deer))
+        images.add(Card(R.drawable.elephant))
+        images.add(Card(R.drawable.fox))
+        images.add(Card(R.drawable.frog))
+        images.add(Card(R.drawable.giraffe))
+        images.add(Card(R.drawable.hen))
+        images.add(Card(R.drawable.horse))
+        images.add(Card(R.drawable.mouse))
+        images.add(Card(R.drawable.owl))
+        images.add(Card(R.drawable.tiger))
+        images.add(Card(R.drawable.raccoon))
+        images.add(Card(R.drawable.shark))
+        images.add(Card(R.drawable.snake))
         images.addAll(images)
         Collections.shuffle(images)
 
@@ -143,7 +143,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             duration = 800
             doOnEnd {
                 flipAnimator2.start()
-                image.setImageDrawable(images[i*7+j])
+                image.setImageResource(images[i*8+j].imageResId)
             }
         }
         flipAnimator.start()
