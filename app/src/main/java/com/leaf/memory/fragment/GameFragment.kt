@@ -15,6 +15,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.leaf.memory.R
+import com.leaf.memory.VictoryDialog
 import com.leaf.memory.adapter.CardAdapter
 import com.leaf.memory.databinding.FragmentGameBinding
 import com.leaf.memory.model.Card
@@ -35,8 +36,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     private fun loadDataToViews() {
         binding.back.setOnClickListener {
-            //////
-            ///// Firdavs
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -47,7 +46,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             for (j in 0 until cardLayout.columnCount) {
                 val cardView = cardLayout.getChildAt(i * cardLayout.columnCount + j) as FrameLayout
                 cardView.tag = false
-                adapter
                 val image = cardView.getChildAt(0) as ImageView
                 image.tag = images[i * cardLayout.columnCount + j]
 
@@ -88,20 +86,28 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                 } else if (cardViewCheck.tag == true && image.tag == imageCheck.tag) {
                                     cardViewCheck.tag = false
                                     cardView.tag = false
-                                    adapter.setMatched(iS*cardLayout.columnCount+jS, true)
-                                    adapter.setMatched(i*cardLayout.columnCount+j, true)
-                                    Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT).show()
-                                    if (checkWin()){
+                                    adapter.setMatched(iS * cardLayout.columnCount + jS, true)
+                                    adapter.setMatched(i * cardLayout.columnCount + j, true)
+                                    Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT)
+                                        .show()
+                                    if (checkWin()) {
                                         Settings.getData(requireContext()).saveLevel(level)
                                         object : CountDownTimer(2000, 1000) {
                                             override fun onTick(p0: Long) {
                                             }
 
                                             override fun onFinish() {
-                                                parentFragmentManager.beginTransaction()
-                                                    .setReorderingAllowed(true)
-                                                    .add(R.id.container, FragmentVictory::class.java, bundleOf("level" to level))
-                                                    .commit()
+                                                VictoryDialog(requireContext(),
+                                                    level
+                                                ) { i ->
+                                                    parentFragmentManager.beginTransaction()
+                                                        .setReorderingAllowed(true)
+                                                        .replace(
+                                                            R.id.container,
+                                                            GameFragment()
+                                                        )
+                                                        .commit()
+                                                }
                                             }
 
                                         }.start()
@@ -118,8 +124,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun loadData() {
-        level = arguments?.getInt("level")!!
-        cardLayout = binding.cardsLinerLayout
+        level = Settings.getData(requireContext()).level()
+        cardLayout = binding.cardsGrid
         images.add(Card(R.drawable.lion))
         images.add(Card(R.drawable.bird))
         images.add(Card(R.drawable.crocodile))
@@ -221,10 +227,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         flipAnimator.start()
     }
-    fun checkWin(): Boolean{
+
+    fun checkWin(): Boolean {
         for (i in 0 until cardLayout.rowCount) {
             for (j in 0 until cardLayout.columnCount) {
-                if (adapter.getItem(i*cardLayout.columnCount+j)?.matched != true){
+                if (adapter.getItem(i * cardLayout.columnCount + j)?.matched != true) {
                     return false
                 }
             }
