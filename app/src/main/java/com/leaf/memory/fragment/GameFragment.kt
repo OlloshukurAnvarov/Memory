@@ -156,11 +156,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
             4 -> {
                 cardLayout.rowCount = 3
-                cardLayout.columnCount = 3
+                cardLayout.columnCount = 4
             }
 
             5 -> {
-                cardLayout.rowCount = 3
+                cardLayout.rowCount = 4
                 cardLayout.columnCount = 4
             }
 
