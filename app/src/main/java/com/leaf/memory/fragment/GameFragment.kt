@@ -26,7 +26,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val images = ArrayList<Card>()
     private val adapter by lazy { CardAdapter(requireContext(), images) }
     private var level = 0
-    private lateinit var cardLayout: GridView
+    private lateinit var cardLayout: GridLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadData()
         loadViews()
@@ -34,14 +34,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun loadDataToViews() {
-        binding.cardsLinerLayout.adapter = adapter
+
     }
 
     private fun loadViews() {
-        for (i in 0 until cardLayout.childCount){
-            val layout = cardLayout.getChildAt(i) as LinearLayout
-            for(j in 0 until layout.childCount){
-                val cardView = layout.getChildAt(j) as FrameLayout
+        for (i in 0 until cardLayout.rowCount){
+            for(j in 0 until cardLayout.columnCount){
+                val cardView = cardLayout.getChildAt(i*cardLayout.columnCount+j) as FrameLayout
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
                 image.tag = images[i*8+j]
@@ -51,10 +50,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     cardView.tag = true
                     flip_out(cardView, image, i, j)
 
-                    for (iS in 0 until cardLayout.childCount) {
-                        val layout = cardLayout.getChildAt(iS) as LinearLayout
-                        for (jS in 0 until layout.childCount) {
-                            val cardViewCheck = layout.getChildAt(jS) as FrameLayout
+                    for (iS in 0 until cardLayout.rowCount) {
+                        for (jS in 0 until cardLayout.columnCount) {
+                            val cardViewCheck = cardLayout.getChildAt(iS*cardLayout.columnCount+jS) as FrameLayout
                             val imageCheck = cardViewCheck.getChildAt(0) as ImageView
                             if (i == iS && j == jS) {continue}
                             else  {
@@ -111,6 +109,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         images.add(Card(R.drawable.snake))
         images.addAll(images)
         Collections.shuffle(images)
+
+        for (i in 0 until cardLayout.rowCount) {
+            for (j in 0 until cardLayout.columnCount) {
+                val index = i * cardLayout.columnCount + j
+                val view = adapter.getView(index, null, cardLayout)
+                cardLayout.addView(view)
+            }
+        }
 
 
     }

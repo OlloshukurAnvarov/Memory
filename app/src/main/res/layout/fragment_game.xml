@@ -11,11 +11,12 @@
         android:scaleType="fitXY"
         android:src="@drawable/mountain_landscape_blur" />
 
-    <GridView
+    <GridLayout
         android:id="@+id/cards_linerLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:rowCount="4"
         android:columnCount="8"
         tools:listitem="@layout/card_item"
