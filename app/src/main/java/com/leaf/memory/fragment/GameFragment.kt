@@ -1,14 +1,12 @@
 package com.leaf.memory.fragment
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,47 +15,54 @@ import com.leaf.memory.R
 import com.leaf.memory.VictoryDialog
 import com.leaf.memory.adapter.CardAdapter
 import com.leaf.memory.databinding.FragmentGameBinding
-import com.leaf.memory.model.Card
+import com.leaf.memory.extensions.adapter
 import com.leaf.memory.preferences.Settings
 
 class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
-    private val images = ArrayList<Card>()
+    private val settings by lazy { Settings(requireContext()) }
+    private val images by lazy { MakeCards().cards(settings.level()) }
     private val adapter by lazy { CardAdapter(requireContext(), images) }
-    private var level = 4
-    private lateinit var cardLayout: GridLayout
-    private lateinit var counter: TextView
+    private val cardsGrid: GridLayout by lazy { binding.cardsGrid }
     private var step = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadData()
         loadViews()
+        loadData()
         loadDataToViews()
     }
 
-    private fun loadDataToViews() {
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+    private fun loadViews() {
+        val level = settings.level()
+        cardsGrid.apply {
+            if (level / 4 >= 5) {
+                columnCount = level / 4
+                rowCount = 4
+            } else {
+                columnCount = level / 2
+                rowCount = 2
+            }
         }
-
+        cardsGrid.adapter(adapter)
     }
 
-    private fun loadViews() {
-        for (i in 0 until cardLayout.rowCount) {
-            for (j in 0 until cardLayout.columnCount) {
-                val cardView = cardLayout.getChildAt(i * cardLayout.columnCount + j) as FrameLayout
+    private fun loadData() {
+        for (i in 0 until cardsGrid.rowCount) {
+            for (j in 0 until cardsGrid.columnCount) {
+                val cardView = cardsGrid.getChildAt(i * cardsGrid.columnCount + j) as FrameLayout
                 cardView.tag = false
                 val image = cardView.getChildAt(0) as ImageView
-                image.tag = images[i * cardLayout.columnCount + j]
+                image.tag = images[i * cardsGrid.columnCount + j]
 
                 cardView.setOnClickListener {
                     cardView.isClickable = false
                     cardView.tag = true
-                    flip_out(cardView, image, i, j)
+                    flipOut(cardView, image, i, j)
 
-                    for (iS in 0 until cardLayout.rowCount) {
-                        for (jS in 0 until cardLayout.columnCount) {
+                    for (iS in 0 until cardsGrid.rowCount) {
+                        for (jS in 0 until cardsGrid.columnCount) {
                             val cardViewCheck =
-                                cardLayout.getChildAt(iS * cardLayout.columnCount + jS) as FrameLayout
+                                cardsGrid.getChildAt(iS * cardsGrid.columnCount + jS) as FrameLayout
                             val imageCheck = cardViewCheck.getChildAt(0) as ImageView
                             if (i == iS && j == jS) {
                                 continue
@@ -73,10 +78,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
                                         override fun onFinish() {
                                             step++
-                                            counter.setText(step.toString())
+                                            binding.step.text = step.toString()
 
-                                            flip_in(cardViewCheck, imageCheck)
-                                            flip_in(cardView, image)
+                                            flipIn(cardViewCheck, imageCheck)
+                                            flipIn(cardView, image)
                                         }
 
                                     }.start()
@@ -84,16 +89,15 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                 } else if (cardViewCheck.tag == true && image.tag == imageCheck.tag) {
                                     cardViewCheck.tag = false
                                     cardView.tag = false
-                                    adapter.setMatched(iS * cardLayout.columnCount + jS, true)
-                                    adapter.setMatched(i * cardLayout.columnCount + j, true)
+                                    adapter.setMatched(iS * cardsGrid.columnCount + jS, true)
+                                    adapter.setMatched(i * cardsGrid.columnCount + j, true)
                                     if (checkWin()) {
-                                        Settings.getData(requireContext()).saveLevel(level)
                                         object : CountDownTimer(500, 500) {
                                             override fun onTick(p0: Long) {
                                             }
 
                                             override fun onFinish() {
-                                                VictoryDialog(requireContext(), level) { i ->
+                                                VictoryDialog(requireContext()) { i ->
                                                     parentFragmentManager.beginTransaction()
                                                         .setReorderingAllowed(true)
                                                         .replace(
@@ -116,58 +120,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun loadData() {
-        level = Settings.getData(requireContext()).level()
-        cardLayout = binding.cardsGrid
-        val cards: MakeCards = MakeCards()
-        images.addAll(cards.cards(level))
-        counter = binding.step
-
-        when (level) {
-            4 -> {
-                cardLayout.rowCount = 2
-                cardLayout.columnCount = 2
-            }
-
-            6 -> {
-                cardLayout.rowCount = 2
-                cardLayout.columnCount = 3
-            }
-
-            8 -> {
-                cardLayout.rowCount = 2
-                cardLayout.columnCount = 4
-            }
-
-            10 -> {
-                cardLayout.rowCount = 2
-                cardLayout.columnCount = 5
-            }
-
-            12 -> {
-                cardLayout.rowCount = 3
-                cardLayout.columnCount = 4
-            }
-
-            14 -> {
-                cardLayout.rowCount = 2
-                cardLayout.columnCount = 7
-            }
+    private fun loadDataToViews() {
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-
-        for (i in 0 until cardLayout.rowCount) {
-            for (j in 0 until cardLayout.columnCount) {
-                val index = i * cardLayout.columnCount + j
-                val view = adapter.getView(index, null, cardLayout)
-                cardLayout.addView(view)
-            }
-        }
-
-
     }
 
-    fun flip_in(cardView: FrameLayout, imageCheck: ImageView) {
+    private fun flipIn(cardView: FrameLayout, imageCheck: ImageView) {
         val flipAnimatorThis =
             ObjectAnimator.ofFloat(cardView, "rotationY", 270f, 360f)
                 .apply {
@@ -192,7 +151,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         flipAnimatorBegin.start()
     }
 
-    fun flip_out(cardView: FrameLayout, image: ImageView, i: Int, j: Int) {
+    private fun flipOut(cardView: FrameLayout, image: ImageView, i: Int, j: Int) {
         val flipAnimator2 = ObjectAnimator.ofFloat(cardView, "rotationY", 90f, 180f).apply {
             duration = 500
         }
@@ -200,26 +159,28 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             duration = 500
             doOnEnd {
                 flipAnimator2.start()
-                image.setImageResource(images[i * cardLayout.columnCount + j].imageResId)
+                image.setImageResource(images[i * cardsGrid.columnCount + j].imageResId)
             }
         }
         flipAnimator.start()
     }
 
-    fun checkWin(): Boolean {
-        for (i in 0 until cardLayout.rowCount) {
-            for (j in 0 until cardLayout.columnCount) {
-                if (adapter.getItem(i * cardLayout.columnCount + j)?.matched != true) {
+    private fun checkWin(): Boolean {
+        for (i in 0 until cardsGrid.rowCount) {
+            for (j in 0 until cardsGrid.columnCount) {
+                if (adapter.getItem(i * cardsGrid.columnCount + j)?.matched != true) {
                     return false
                 }
             }
         }
         return true
     }
-    fun setClickable(value: Boolean){
-        for (i in 0 until cardLayout.getChildCount()) {
-            val childView: View = cardLayout.getChildAt(i)
-            childView.isClickable =value
+
+    private fun setClickable(value: Boolean) {
+        for (i in 0 until cardsGrid.childCount) {
+            val childView: View = cardsGrid.getChildAt(i)
+            childView.isClickable = value
         }
     }
+
 }

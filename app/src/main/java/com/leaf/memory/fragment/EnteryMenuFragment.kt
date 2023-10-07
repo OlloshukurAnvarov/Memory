@@ -16,7 +16,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (settings.level() > 1)
+        if (settings.level() > 4)
             binding.continueButton.visibility = View.VISIBLE
         else
             binding.continueButton.visibility = View.GONE
