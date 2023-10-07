@@ -16,12 +16,13 @@ import com.leaf.memory.VictoryDialog
 import com.leaf.memory.adapter.CardAdapter
 import com.leaf.memory.databinding.FragmentGameBinding
 import com.leaf.memory.extensions.adapter
+import com.leaf.memory.model.Card
 import com.leaf.memory.preferences.Settings
 
 class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
     private val settings by lazy { Settings(requireContext()) }
-    private val images by lazy { MakeCards().cards(settings.level()) }
+    private val images: ArrayList<Card> by lazy { MakeCards().cards(settings.level()) }
     private val adapter by lazy { CardAdapter(requireContext(), images) }
     private val cardsGrid: GridLayout by lazy { binding.cardsGrid }
     private var step = 0
@@ -97,14 +98,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                             }
 
                                             override fun onFinish() {
-                                                VictoryDialog(requireContext()) { i ->
-                                                    parentFragmentManager.beginTransaction()
-                                                        .setReorderingAllowed(true)
-                                                        .replace(
-                                                            R.id.container,
-                                                            GameFragment()
-                                                        )
-                                                        .commit()
+                                                VictoryDialog(requireContext()) {
+                                                    images.clear()
+                                                    adapter.notifyDataSetChanged()
+                                                    loadViews()
+                                                    loadData()
                                                 }
                                             }
 

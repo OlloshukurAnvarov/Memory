@@ -25,7 +25,7 @@ class MakeCards {
         cards.add(Card(R.drawable.snake))
     }
 
-    fun cards(level: Int): List<Card> {
+    fun cards(level: Int): ArrayList<Card> {
         val pCards = ArrayList<Card>(level)
 
         for (i in 0 until level / 2) {
@@ -34,7 +34,7 @@ class MakeCards {
             pCards.add(cards[randCardIndex])
             cards.removeAt(randCardIndex)
         }
-        return pCards.shuffled()
+        return pCards.shuffled() as ArrayList<Card>
     }
 
 }

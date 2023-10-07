@@ -24,15 +24,14 @@ class VictoryDialog(context: Context, listener: OnNextClickListener) {
         val level = settings.level()
 
         next.setOnClickListener {
-            listener.onNextClick(level + 4)
-            Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show()
+            listener.onNextClick()
             settings.saveLevel(level + 2)
             cancel()
         }
         retry.setOnClickListener {
-            listener.onNextClick(level)
+            listener.onNextClick()
             cancel()
-            Settings.getData(context).saveLevel(level)
+            settings.saveLevel(level)
         }
         dialog.setView(view)
         dialog.show()
@@ -44,5 +43,5 @@ class VictoryDialog(context: Context, listener: OnNextClickListener) {
 }
 
 fun interface OnNextClickListener {
-    fun `onNextClick`(level: Int)
+    fun onNextClick()
 }
