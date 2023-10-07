@@ -22,7 +22,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
             binding.continueButton.visibility = View.GONE
 
         binding.newGame.setOnClickListener {
-            settings.saveLevel(1)
+            settings.saveLevel(4)
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.container, GameFragment())

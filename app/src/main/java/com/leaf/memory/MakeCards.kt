@@ -28,7 +28,7 @@ class MakeCards {
     fun cards(level: Int): List<Card> {
         val pCards = ArrayList<Card>(level)
 
-        for (i in 1..level / 2) {
+        for (i in 0 until level / 2) {
             val randCardIndex = Random.nextInt(cards.size)
             pCards.add(cards[randCardIndex])
             pCards.add(cards[randCardIndex])

@@ -24,9 +24,9 @@ class VictoryDialog (context: Context, level: Int, listener: OnNextClickListener
         val retry: ImageView = view.findViewById(R.id.retry)
 
         next.setOnClickListener {
-            listener.onNextlick(level+1)
+            listener.onNextlick(level+2)
             Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show()
-            Settings.getData(context).saveLevel(level+1)
+            Settings.getData(context).saveLevel(level+2)
             cancel()
         }
         retry.setOnClickListener {
