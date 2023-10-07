@@ -16,13 +16,13 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (settings.level() > 4)
+        if (settings.level() > 1)
             binding.continueButton.visibility = View.VISIBLE
         else
             binding.continueButton.visibility = View.GONE
 
         binding.newGame.setOnClickListener {
-            settings.saveLevel(4)
+            settings.saveLevel(1)
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.container, GameFragment())
