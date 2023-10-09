@@ -8,4 +8,9 @@
     <string name="medium">Medium</string>
     <string name="Hard">Hard</string>
     <string name="next">NEXT</string>
+    <string name="reply">Reply</string>
+    <string name="cancel">Cancel</string>
+    <string name="you_may_lost_your_game_data">You may lost your game data</string>
+    <string name="warning">Warning!</string>
+    <string name="ok">Ok</string>
 </resources>

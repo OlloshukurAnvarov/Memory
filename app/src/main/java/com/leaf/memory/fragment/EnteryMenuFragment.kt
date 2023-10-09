@@ -1,11 +1,12 @@
 package com.leaf.memory.fragment
 
+import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.leaf.memory.PlayerService
 import com.leaf.memory.R
 import com.leaf.memory.databinding.FragmentEnteryMenuBinding
 import com.leaf.memory.preferences.Settings
@@ -26,7 +27,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.container, GameFragment())
-                .addToBackStack("EnteryMenuFragment")
+                .remove(this)
                 .commit()
         }
 
@@ -34,7 +35,7 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
             parentFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.container, GameFragment())
-                .addToBackStack("EnteryMenuFragment")
+                .remove(this)
                 .commit()
         }
 
@@ -42,6 +43,24 @@ class EnteryMenuFragment : Fragment(R.layout.fragment_entery_menu) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-    }
+        if (settings.bool()) {
+            binding.volume.setImageResource(R.drawable.unmute_icon)
+            requireContext().startService(Intent(requireContext(), PlayerService::class.java))
+        }
 
+        binding.apply {
+            volume.setOnClickListener {
+                if (settings.bool()) {
+                    requireContext().stopService(Intent(requireContext(), PlayerService::class.java))
+                    volume.setImageResource(R.drawable.mute_icon)
+                    settings.saveBool(false)
+                }
+                else {
+                    requireContext().startService(Intent(requireContext(), PlayerService::class.java))
+                    volume.setImageResource(R.drawable.unmute_icon)
+                    settings.saveBool(true)
+                }
+            }
+        }
+    }
 }

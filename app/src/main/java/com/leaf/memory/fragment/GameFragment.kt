@@ -3,16 +3,19 @@ package com.leaf.memory.fragment
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.leaf.memory.Dialog
 import com.leaf.memory.MakeCards
 import com.leaf.memory.R
-import com.leaf.memory.VictoryDialog
 import com.leaf.memory.adapter.CardAdapter
 import com.leaf.memory.databinding.FragmentGameBinding
 import com.leaf.memory.extensions.adapter
@@ -22,18 +25,29 @@ import com.leaf.memory.preferences.Settings
 class GameFragment : Fragment(R.layout.fragment_game) {
     private val binding: FragmentGameBinding by viewBinding()
     private val settings by lazy { Settings(requireContext()) }
-    private val images: ArrayList<Card> by lazy { MakeCards().cards(settings.level()) }
+    private val images by lazy { MakeCards().cards(settings.level()) }
     private val adapter by lazy { CardAdapter(requireContext(), images) }
     private val cardsGrid: GridLayout by lazy { binding.cardsGrid }
     private var step = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadViews()
         loadData()
-        loadDataToViews()
+        loadAnimation()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                alertDialog()
+            }
+
+        })
+
+        binding.back.setOnClickListener {
+            alertDialog()
+        }
+
     }
 
-    private fun loadViews() {
+    private fun loadData() {
         val level = settings.level()
         cardsGrid.apply {
             if (level / 4 >= 5) {
@@ -47,7 +61,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         cardsGrid.adapter(adapter)
     }
 
-    private fun loadData() {
+    private fun loadAnimation() {
         for (i in 0 until cardsGrid.rowCount) {
             for (j in 0 until cardsGrid.columnCount) {
                 val cardView = cardsGrid.getChildAt(i * cardsGrid.columnCount + j) as FrameLayout
@@ -92,18 +106,37 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                                     cardView.tag = false
                                     adapter.setMatched(iS * cardsGrid.columnCount + jS, true)
                                     adapter.setMatched(i * cardsGrid.columnCount + j, true)
+
                                     if (checkWin()) {
                                         object : CountDownTimer(500, 500) {
-                                            override fun onTick(p0: Long) {
+                                            override fun onTick(millisUntilFinished: Long) {
                                             }
 
                                             override fun onFinish() {
-                                                VictoryDialog(requireContext()) {
-                                                    images.clear()
-                                                    adapter.notifyDataSetChanged()
-                                                    loadViews()
-                                                    loadData()
+                                                val dialog =
+                                                    Dialog(
+                                                        requireContext(),
+                                                        R.layout.victory_dialog
+                                                    )
+                                                dialog.show()
+                                                dialog.retryClickListener {
+                                                    parentFragmentManager.beginTransaction()
+                                                        .setReorderingAllowed(true)
+                                                        .replace(
+                                                            R.id.container,
+                                                            EnteryMenuFragment()
+                                                        )
+                                                        .remove(this@GameFragment)
+                                                        .commit()
                                                 }
+                                                dialog.nextClickListener {
+                                                    parentFragmentManager.beginTransaction()
+                                                        .setReorderingAllowed(true)
+                                                        .replace(R.id.container, GameFragment())
+                                                        .remove(this@GameFragment)
+                                                        .commit()
+                                                }
+
                                             }
 
                                         }.start()
@@ -115,12 +148,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     }
                 }
             }
-        }
-    }
-
-    private fun loadDataToViews() {
-        binding.back.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -181,4 +208,20 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
     }
 
+    private fun alertDialog(){
+        val dialog = Dialog(requireContext(), R.layout.alert_dialog)
+        dialog.show()
+        dialog.cancelClickListener {
+        }
+        dialog.okClickListener {
+            parentFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(
+                    R.id.container,
+                    EnteryMenuFragment()
+                )
+                .remove(this@GameFragment)
+                .commit()
+        }
+    }
 }
